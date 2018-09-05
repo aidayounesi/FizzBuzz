@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,14 +9,25 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            new FizzBuzzGame().Play();
+            Console.WriteLine("Please enter maximum number for extended FizzBuzz game: ");
+            int maxNum = Console.Read();
+
+            new FizzBuzzGame(1, maxNum).Play();
         }
     }
 
-    class FizzBuzzGame
+    class FizzBuzzGame : IEnumerable<string>
     {
         private int _minNum = 1;
         private int _maxNum = 100;
+
+        public FizzBuzzGame() {}
+
+        public FizzBuzzGame(int minNum, int maxNum)
+        {
+            _minNum = minNum;
+            _maxNum = maxNum;
+        }
 
         static readonly Dictionary<int, KeyValuePair<Func<List<string>, string, List<string>>, string>> Rules =
             new Dictionary<int, KeyValuePair<Func<List<string>, string, List<string>>, string>>()
@@ -27,15 +39,7 @@ namespace ConsoleApp
                 {13, new KeyValuePair<Func<List<string>, string, List<string>>, string>(AppendBeforeB, "Fezz")},
                 {17, new KeyValuePair<Func<List<string>, string, List<string>>, string>(Reverse, "N/A")}
             };
-
-
-        public void SetMaxNumFromUser()
-        {
-            Console.WriteLine("Please enter maximum number for extended FizzBuzz game: ");
-            //Console.ReadKey();
-            _maxNum = Console.Read();
-        }
-
+        
         private static List<string> AppendLast(List<string> generatedStringsList, string keyword)
         {
             generatedStringsList.Add(keyword);
@@ -73,7 +77,6 @@ namespace ConsoleApp
 
         public void Play()
         {
-            SetMaxNumFromUser();
             for (int i = _minNum; i < _maxNum; i++)
             {
                 List<string> strList = new List<string>();
@@ -94,6 +97,16 @@ namespace ConsoleApp
                 }
                 Console.WriteLine(String.Join("", strList));
             }
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
