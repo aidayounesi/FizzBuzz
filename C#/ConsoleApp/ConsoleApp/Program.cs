@@ -10,9 +10,15 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             Console.WriteLine("Please enter maximum number for extended FizzBuzz game: ");
-            int maxNum = Console.Read();
+            var maxNum = Console.Read();
 
-            new FizzBuzzGame(1, maxNum).Play();
+            var fizzBuzzer = new FizzBuzzGame(1, maxNum);
+
+
+            foreach (var value in fizzBuzzer)
+            {
+                Console.WriteLine(value);
+            }
         }
     }
 
@@ -21,12 +27,16 @@ namespace ConsoleApp
         private int _minNum = 1;
         private int _maxNum = 100;
 
+        private List<string> StringResults = new List<string>();
+
         public FizzBuzzGame() {}
 
         public FizzBuzzGame(int minNum, int maxNum)
         {
             _minNum = minNum;
             _maxNum = maxNum;
+
+            Play();
         }
 
         static readonly Dictionary<int, KeyValuePair<Func<List<string>, string, List<string>>, string>> Rules =
@@ -95,13 +105,13 @@ namespace ConsoleApp
                 {
                     strList.Add(i.ToString());
                 }
-                Console.WriteLine(String.Join("", strList));
+               StringResults.Add(String.Join("", strList));
             }
         }
 
         public IEnumerator<string> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return StringResults.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
