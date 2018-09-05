@@ -1,0 +1,7 @@
+C:\Work\Training\FizzBuzz\C#\ConsoleApp\ConsoleApp\bin\Release\ConsoleApp.exe.config
+C:\Work\Training\FizzBuzz\C#\ConsoleApp\ConsoleApp\bin\Release\ConsoleApp.exe
+C:\Work\Training\FizzBuzz\C#\ConsoleApp\ConsoleApp\bin\Release\ConsoleApp.pdb
+C:\Work\Training\FizzBuzz\C#\ConsoleApp\ConsoleApp\obj\Release\ConsoleApp.csprojAssemblyReference.cache
+C:\Work\Training\FizzBuzz\C#\ConsoleApp\ConsoleApp\obj\Release\ConsoleApp.csproj.CoreCompileInputs.cache
+C:\Work\Training\FizzBuzz\C#\ConsoleApp\ConsoleApp\obj\Release\ConsoleApp.exe
+C:\Work\Training\FizzBuzz\C#\ConsoleApp\ConsoleApp\obj\Release\ConsoleApp.pdb
