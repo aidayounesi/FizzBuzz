@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleApp
 {
@@ -6,12 +8,92 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            new FizzBuzzGame().Play();
+        }
+    }
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+    class FizzBuzzGame
+    {
+        private int _minNum = 1;
+        private int _maxNum = 100;
+
+        static readonly Dictionary<int, KeyValuePair<Func<List<string>, string, List<string>>, string>> Rules =
+            new Dictionary<int, KeyValuePair<Func<List<string>, string, List<string>>, string>>()
+            {
+                {3, new KeyValuePair<Func<List<string>, string, List<string>>, string>(AppendLast, "Fizz")},
+                {5, new KeyValuePair<Func<List<string>, string, List<string>>, string>(AppendLast, "Buzz")},
+                {7, new KeyValuePair<Func<List<string>, string, List<string>>, string>(AppendLast, "Bang")},
+                {11, new KeyValuePair<Func<List<string>, string, List<string>>, string>(ExclusiveCase, "Bong")},
+                {13, new KeyValuePair<Func<List<string>, string, List<string>>, string>(AppendBeforeB, "Fezz")},
+                {17, new KeyValuePair<Func<List<string>, string, List<string>>, string>(Reverse, "N/A")}
+            };
+
+
+        public void SetMaxNumFromUser()
+        {
+            Console.WriteLine("Please enter maximum number for extended FizzBuzz game: ");
+            //Console.ReadKey();
+            _maxNum = Console.Read();
+        }
+
+        private static List<string> AppendLast(List<string> generatedStringsList, string keyword)
+        {
+            generatedStringsList.Add(keyword);
+            return generatedStringsList;
+        }
+
+
+        private static List<string> ExclusiveCase(List<string> generatedStringsList, string keyword)
+        {
+            return new List<string> {keyword};
+        }
+
+        private static int FindIndexCharBeginInStrArray(List<string> givenList, char givenChar)
+        {
+            return givenList.FindIndex(stringToCheck => stringToCheck[0] == givenChar);
+        }
+
+        private static List<string> AppendBeforeB(List<string> generatedStringsList, string keyword)
+        {
+            int indexB = FindIndexCharBeginInStrArray(generatedStringsList, 'B');
+            if (indexB >= 0)
+            {
+                generatedStringsList.Insert(indexB, keyword);
+                return generatedStringsList;
+            }
+
+            return AppendLast(generatedStringsList, keyword);
+        }
+
+        private static List<string> Reverse(List<string> generatedStringsList, string keyword)
+        {
+            generatedStringsList.Reverse();
+            return generatedStringsList;
+        }
+
+        public void Play()
+        {
+            SetMaxNumFromUser();
+            for (int i = _minNum; i < _maxNum; i++)
+            {
+                List<string> strList = new List<string>();
+                // for each number applies all the suitable rules
+                foreach (KeyValuePair<int, KeyValuePair<Func<List<string>, string, List<string>>, string>> rule in Rules)
+                {
+                    // if this number is dividable by the key, so the rule should be applied
+                    if (i % rule.Key == 0)
+                    {
+                        strList = rule.Value.Key(strList, rule.Value.Value);
+                    }
+                }
+
+                // if no rules has been applied, the number itself should be printed
+                if (strList.Count == 0)
+                {
+                    strList.Add(i.ToString());
+                }
+                Console.WriteLine(String.Join("", strList));
+            }
         }
     }
 }
